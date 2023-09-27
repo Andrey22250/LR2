@@ -205,13 +205,13 @@ CPU input_cpu()
 		printf("Введите частоту процессора в МГЦ: ");
 		scanf("%d", &frequency);
 		clean();
-	} while (frequency<=0 && frequency>=7000);
+	} while (frequency<=0 || frequency>=7000);
 	do
 	{
 		printf("Введите кол-во ядер: ");
 		scanf("%d", &cores);
 		clean();
-	} while (cores <= 0 && cores>256);
+	} while (cores <= 0 || cores>256);
 	do
 	{
 		printf("Введите кол-во потоков: ");
@@ -255,7 +255,7 @@ RAM input_ram()
 		printf("Введите частоту ОЗУ в МГЦ: ");
 		scanf("%d", &frequency);
 		clean();
-	} while (frequency <= 0 && frequency >= 12000);
+	} while (frequency < 0 || frequency >= 12000);
 	do
 	{
 		printf("Введите объём ОЗУ: ");
@@ -284,7 +284,7 @@ PC input_pc()
 	do
 	{
 		printf("Введите цену ПК: ");
-		scanf("%.2f",&price);
+		scanf("%f",&price);
 		clean();
 	} while (price <= 0);
 	return *init_PC(input_cpu(), input_gpu(), input_ram(), input_motherboard(), price);
@@ -331,26 +331,27 @@ int Output_build(Build build)
 	printf("Номер заказа: %d\n", build.number);
 	printf("Клиент - %s\n", build.client);
 	printf("Статус - %s\n", StatusToString(build.status));
+	return 1;
 }
 
 //Дополнительные функции
 
 
-void undervolt_gpu(GPU *gpu)
+void undervolt_gpu(PC pc)
 {
-	if (gpu->TDP > gpu->min_TDP)
+	if (pc.gpu.TDP > pc.gpu.min_TDP)
 	{
-		gpu->TDP -= 3;
-		if (gpu->TDP < gpu->min_TDP)
-			gpu->TDP = gpu->min_TDP;
+		pc.gpu.TDP -= 3;
+		if (pc.gpu.TDP < pc.gpu.min_TDP)
+			pc.gpu.TDP = pc.gpu.min_TDP;
 	}
 	else printf("Достигнут предел undervolt'а");
 }
 
-void ChangeStatus(Build build, Status newstatus) 
+void ChangeStatus(Build *build, Status newstatus) 
 {
 	if (newstatus >= create && newstatus <= finished) {
-		build.status = newstatus;
+		build->status = newstatus;
 		printf("Состояние заказа успешно изменено!\n");
 	}
 	else {
@@ -359,12 +360,12 @@ void ChangeStatus(Build build, Status newstatus)
 	}
 }
 
-void cleanmemory(PC *pc, Build *build)
+void cleanmemory(Build *build)
 {
-	free(pc->cpu.name_cpu);
-	free(pc->gpu.name_gpu);
-	free(pc->ram.type_ddr);
-	free(pc->motherboard.name_motherboard);
-	free(pc->motherboard.chipset);
+	free(build->pc.cpu.name_cpu);
+	free(build->pc.gpu.name_gpu);
+	free(build->pc.ram.type_ddr);
+	free(build->pc.motherboard.name_motherboard);
+	free(build->pc.motherboard.chipset);
 	free(build->client);
 }
