@@ -2,7 +2,8 @@
 #define len_name 35
 #include <malloc.h>
 #include <string.h>
-#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 
 void clean()  //Очистка потока
 {
@@ -22,6 +23,7 @@ struct GPU
 	char *name_gpu;
 	int vram;
 	int TDP;
+	int min_TDP;
 };
 
 struct RAM
@@ -108,6 +110,7 @@ GPU* init_gpu(char* name_gpu, int vram, int TDP)
 		strcpy(gpu->name_gpu, name_gpu);
 		gpu->vram = vram;
 		gpu->TDP = TDP;
+		gpu->min_TDP = TDP * 0.85;
 		return gpu;
 	}
 	else
@@ -331,8 +334,37 @@ int Output_build(Build build)
 }
 
 //Дополнительные функции
+
+
 void undervolt_gpu(GPU *gpu)
 {
-	int TDP_lowest = gpu->TDP * 0.85;
-	if()
+	if (gpu->TDP > gpu->min_TDP)
+	{
+		gpu->TDP -= 3;
+		if (gpu->TDP < gpu->min_TDP)
+			gpu->TDP = gpu->min_TDP;
+	}
+	else printf("Достигнут предел undervolt'а");
+}
+
+void ChangeStatus(Build build, Status newstatus) 
+{
+	if (newstatus >= create && newstatus <= finished) {
+		build.status = newstatus;
+		printf("Состояние заказа успешно изменено!\n");
+	}
+	else {
+		printf("Неверно, выход из программы...");
+		exit(-1);
+	}
+}
+
+void cleanmemory(PC *pc, Build *build)
+{
+	free(pc->cpu.name_cpu);
+	free(pc->gpu.name_gpu);
+	free(pc->ram.type_ddr);
+	free(pc->motherboard.name_motherboard);
+	free(pc->motherboard.chipset);
+	free(build->client);
 }
