@@ -2,7 +2,7 @@
 #define len_name 35
 #include <malloc.h>
 #include <string.h>
-#include <iostream>
+#include <stdlib.h>
 
 struct CPU
 {
