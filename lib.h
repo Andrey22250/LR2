@@ -32,7 +32,7 @@ struct RAM
 	int frequency, mem;
 };
 
-struct motherboard
+struct Motherboard
 {
 	char *name_motherboard, *chipset;
 };
@@ -42,7 +42,7 @@ struct PC
 	CPU cpu;
 	GPU gpu;
 	RAM ram;
-	motherboard motherboard;
+	Motherboard motherboard;
 	float price;
 };
 
@@ -122,13 +122,14 @@ GPU* init_gpu(char* name_gpu, int vram, int TDP)
 
 RAM* init_RAM(char* type_ddr, int frequency, int mem)
 {
-	if (type_ddr[0] == 'D' && type_ddr[1] == 'D' && type_ddr[2] == 'R' && frequency > 0)
+	if (mem > 0 && frequency > 0)
 	{
 		RAM* ram = (RAM*)calloc(1, sizeof(RAM));
 		ram->type_ddr = (char*)calloc(len_name, sizeof(char));
 		strcpy(ram->type_ddr, type_ddr);
 		ram->frequency = frequency;
 		ram->mem = mem;
+		return ram;
 	}
 	else
 	{
@@ -137,15 +138,16 @@ RAM* init_RAM(char* type_ddr, int frequency, int mem)
 	}
 }
 
-motherboard* init_motherboard(char* name_motherboard, char* chipset)
+Motherboard* init_motherboard(char* name_motherboard, char* chipset)
 {
-	if (strlen(name_motherboard) > 0 && strlen(chipset) > 0)
+	if (strlen(name_motherboard) != 0 && strlen(chipset) != 0)
 	{
-		motherboard* motherboard1 = (motherboard*)calloc(1, sizeof(motherboard));
-		motherboard1->name_motherboard = (char*)calloc(len_name, sizeof(char));
-		motherboard1->chipset = (char*)calloc(len_name, sizeof(char));
-		strcpy(motherboard1->name_motherboard, name_motherboard);
-		strcpy(motherboard1->chipset, chipset);
+		Motherboard* motherboard = (Motherboard*)calloc(1, sizeof(Motherboard));
+		motherboard->name_motherboard = (char*)calloc(len_name, sizeof(char));
+		motherboard->chipset = (char*)calloc(len_name, sizeof(char));
+		strcpy(motherboard->name_motherboard, name_motherboard);
+		strcpy(motherboard->chipset, chipset);
+		return motherboard;
 	}
 	else
 	{
@@ -154,7 +156,7 @@ motherboard* init_motherboard(char* name_motherboard, char* chipset)
 	}
 }
 
-PC* init_PC(CPU cpu, GPU gpu, RAM ram, motherboard motherboard, float price)
+PC* init_PC(CPU cpu, GPU gpu, RAM ram, Motherboard motherboard, float price)
 {
 	if (price > 0)
 	{
@@ -164,6 +166,7 @@ PC* init_PC(CPU cpu, GPU gpu, RAM ram, motherboard motherboard, float price)
 		pc->ram = ram;
 		pc->motherboard = motherboard;
 		pc->price = price;
+		return pc;
 	}
 	else
 	{
@@ -182,6 +185,7 @@ Build* init_build(int number, PC pc, char* client, Status status)
 		build->number = number;
 		build->pc = pc;
 		build->status = status;
+		return build;
 	}
 	else
 	{
@@ -194,7 +198,7 @@ Build* init_build(int number, PC pc, char* client, Status status)
 
 CPU input_cpu()
 {
-	printf("Ввод параметров процессора\n");
+	printf("\nВвод параметров процессора\n");
 	char* name_cpu = (char*)calloc(len_name, sizeof(char));
 	int frequency;
 	int cores, treads;
@@ -223,7 +227,7 @@ CPU input_cpu()
 
 GPU input_gpu()
 {
-	printf("Ввод параметров видеокарты\n");
+	printf("\nВвод параметров видеокарты\n");
 	char* name_gpu = (char*)calloc(len_name, sizeof(char));
 	int vram, TDP;
 	printf("Введите название видеокарты: ");
@@ -245,7 +249,7 @@ GPU input_gpu()
 
 RAM input_ram()
 {
-	printf("Ввод параметров ОЗУ\n");
+	printf("\nВвод параметров ОЗУ\n");
 	char* type_ddr = (char*)calloc(len_name, sizeof(char));
 	int frequency, mem;
 	printf("Введите тип ОЗУ: ");
@@ -255,7 +259,7 @@ RAM input_ram()
 		printf("Введите частоту ОЗУ в МГЦ: ");
 		scanf("%d", &frequency);
 		clean();
-	} while (frequency < 0 || frequency >= 12000);
+	} while (frequency <= 0 || frequency >= 12000);
 	do
 	{
 		printf("Введите объём ОЗУ: ");
@@ -265,9 +269,9 @@ RAM input_ram()
 	return *init_RAM(type_ddr, frequency, mem);
 }
 
-motherboard input_motherboard()
+Motherboard input_motherboard()
 {
-	printf("Ввод параметров материнской платы\n");
+	printf("\nВвод параметров материнской платы\n");
 	char* name_motherboard = (char*)calloc(len_name, sizeof(char));
 	char* chipset = (char*)calloc(len_name, sizeof(char));
 	printf("Введите название материнской платы: ");
@@ -280,7 +284,7 @@ motherboard input_motherboard()
 PC input_pc()
 {
 	float price;
-	printf("Ввод информации о компьютере\n");
+	printf("\nВвод информации о компьютере\n");
 	do
 	{
 		printf("Введите цену ПК: ");
@@ -316,18 +320,18 @@ Build input_build()
 //Вывод структур
 int Output_PC_spec(PC pc)
 {
-	printf("Информация о сборке:\n\n");
+	printf("\nИнформация о сборке:\n\n");
 	printf("Процессор: %s, %d МГЦ, %d ядер, %d потоков\n", pc.cpu.name_cpu, pc.cpu.frequency, pc.cpu.cores, pc.cpu.treads);
 	printf("Видеокарта: %s, %d VRAM, %d TDP\n", pc.gpu.name_gpu, pc.gpu.vram, pc.gpu.TDP);
 	printf("ОЗУ: %s, %d частота, %d объём\n", pc.ram.type_ddr, pc.ram.frequency, pc.ram.mem);
 	printf("Материнская плата: %s, %s чипсет\n", pc.motherboard.name_motherboard, pc.motherboard.chipset);
-	printf("Цена сборки %.2lf\n", pc.price);
+	printf("Цена сборки: %.2f\n", pc.price);
 	return 1;
 }
 
 int Output_build(Build build)
 {
-	printf("Информация о заказе:\n\n");
+	printf("\nИнформация о заказе:\n\n");
 	printf("Номер заказа: %d\n", build.number);
 	printf("Клиент - %s\n", build.client);
 	printf("Статус - %s\n", StatusToString(build.status));
@@ -337,13 +341,13 @@ int Output_build(Build build)
 //Дополнительные функции
 
 
-void undervolt_gpu(PC pc)
+void undervolt_gpu(PC *pc)
 {
-	if (pc.gpu.TDP > pc.gpu.min_TDP)
+	if (pc->gpu.TDP > pc->gpu.min_TDP)
 	{
-		pc.gpu.TDP -= 3;
-		if (pc.gpu.TDP < pc.gpu.min_TDP)
-			pc.gpu.TDP = pc.gpu.min_TDP;
+		pc->gpu.TDP -= 3;
+		if (pc->gpu.TDP < pc->gpu.min_TDP)
+			pc->gpu.TDP = pc->gpu.min_TDP;
 	}
 	else printf("Достигнут предел undervolt'а");
 }
