@@ -1,11 +1,11 @@
-#pragma once
+п»ї#pragma once
 #define len_name 35
 #include <malloc.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-void clean()  //Очистка потока
+void clean()  //РћС‡РёСЃС‚РєР° РїРѕС‚РѕРєР°
 {
 	while (getchar() != '\n');
 }
@@ -56,20 +56,20 @@ struct Build
 	Status status;
 };
 
-//Вспомогательные функции
+//Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё
 char* StatusToString(Status status) {
 	char* strStatus = (char*)calloc(len_name, sizeof(char));
 
 	switch (status)
 	{
 	case create:
-		strcpy(strStatus, "создан");
+		strcpy(strStatus, "СЃРѕР·РґР°РЅ");
 		break;
 	case working:
-		strcpy(strStatus, "в сборке");
+		strcpy(strStatus, "РІ СЃР±РѕСЂРєРµ");
 		break;
 	case finished:
-		strcpy(strStatus, "готов к выдаче");
+		strcpy(strStatus, "РіРѕС‚РѕРІ Рє РІС‹РґР°С‡Рµ");
 		break;
 	default:
 		break;
@@ -77,10 +77,10 @@ char* StatusToString(Status status) {
 	return strStatus;
 }
 
-//Основные функции
+//РћСЃРЅРѕРІРЅС‹Рµ С„СѓРЅРєС†РёРё
 
 
-//Инициализация структур
+//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃС‚СЂСѓРєС‚СѓСЂ
 
 CPU *init_cpu(char* name_cpu, int frequency, int cores, int treads)
 {
@@ -96,7 +96,7 @@ CPU *init_cpu(char* name_cpu, int frequency, int cores, int treads)
 	}
 	else
 	{
-		printf("Неверно, выход из программы...");
+		printf("РќРµРІРµСЂРЅРѕ, РІС‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹...");
 		exit(-1);
 	}
 }
@@ -115,7 +115,7 @@ GPU* init_gpu(char* name_gpu, int vram, int TDP)
 	}
 	else
 	{
-		printf("Неверно, выход из программы...");
+		printf("РќРµРІРµСЂРЅРѕ, РІС‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹...");
 		exit(-1);
 	}
 }
@@ -133,7 +133,7 @@ RAM* init_RAM(char* type_ddr, int frequency, int mem)
 	}
 	else
 	{
-		printf("Неверно, выход из программы...");
+		printf("РќРµРІРµСЂРЅРѕ, РІС‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹...");
 		exit(-1);
 	}
 }
@@ -151,7 +151,7 @@ Motherboard* init_motherboard(char* name_motherboard, char* chipset)
 	}
 	else
 	{
-		printf("Неверно, выход из программы...");
+		printf("РќРµРІРµСЂРЅРѕ, РІС‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹...");
 		exit(-1);
 	}
 }
@@ -170,7 +170,7 @@ PC* init_PC(CPU cpu, GPU gpu, RAM ram, Motherboard motherboard, float price)
 	}
 	else
 	{
-		printf("Неверно, выход из программы...");
+		printf("РќРµРІРµСЂРЅРѕ, РІС‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹...");
 		exit(-1);
 	}
 }
@@ -189,36 +189,36 @@ Build* init_build(int number, PC pc, char* client, Status status)
 	}
 	else
 	{
-		printf("Неверно, выход из программы...");
+		printf("РќРµРІРµСЂРЅРѕ, РІС‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹...");
 		exit(-1);
 	}
 }
 
-//Ввод структур
+//Р’РІРѕРґ СЃС‚СЂСѓРєС‚СѓСЂ
 
 CPU input_cpu()
 {
-	printf("\nВвод параметров процессора\n");
+	printf("\nР’РІРѕРґ РїР°СЂР°РјРµС‚СЂРѕРІ РїСЂРѕС†РµСЃСЃРѕСЂР°\n");
 	char* name_cpu = (char*)calloc(len_name, sizeof(char));
 	int frequency;
 	int cores, treads;
-	printf("Введите название процессора: ");
+	printf("Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ РїСЂРѕС†РµСЃСЃРѕСЂР°: ");
 	gets_s(name_cpu, len_name);
 	do
 	{
-		printf("Введите частоту процессора в МГЦ: ");
+		printf("Р’РІРµРґРёС‚Рµ С‡Р°СЃС‚РѕС‚Сѓ РїСЂРѕС†РµСЃСЃРѕСЂР° РІ РњР“Р¦: ");
 		scanf("%d", &frequency);
 		clean();
 	} while (frequency<=0 || frequency>=7000);
 	do
 	{
-		printf("Введите кол-во ядер: ");
+		printf("Р’РІРµРґРёС‚Рµ РєРѕР»-РІРѕ СЏРґРµСЂ: ");
 		scanf("%d", &cores);
 		clean();
 	} while (cores <= 0 || cores>256);
 	do
 	{
-		printf("Введите кол-во потоков: ");
+		printf("Р’РІРµРґРёС‚Рµ РєРѕР»-РІРѕ РїРѕС‚РѕРєРѕРІ: ");
 		scanf("%d", &treads);
 		clean();
 	} while (treads <= 0 && treads>512);
@@ -227,20 +227,20 @@ CPU input_cpu()
 
 GPU input_gpu()
 {
-	printf("\nВвод параметров видеокарты\n");
+	printf("\nР’РІРѕРґ РїР°СЂР°РјРµС‚СЂРѕРІ РІРёРґРµРѕРєР°СЂС‚С‹\n");
 	char* name_gpu = (char*)calloc(len_name, sizeof(char));
 	int vram, TDP;
-	printf("Введите название видеокарты: ");
+	printf("Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ РІРёРґРµРѕРєР°СЂС‚С‹: ");
 	gets_s(name_gpu, len_name);
 	do
 	{
-		printf("Введите объём видеопамяти в МБ: ");
+		printf("Р’РІРµРґРёС‚Рµ РѕР±СЉС‘Рј РІРёРґРµРѕРїР°РјСЏС‚Рё РІ РњР‘: ");
 		scanf("%d", &vram);
 		clean();
 	} while (vram <= 0);
 	do
 	{
-		printf("Введите TDP в ваттах: ");
+		printf("Р’РІРµРґРёС‚Рµ TDP РІ РІР°С‚С‚Р°С…: ");
 		scanf("%d", &TDP);
 		clean();
 	} while (TDP <= 0);
@@ -249,20 +249,20 @@ GPU input_gpu()
 
 RAM input_ram()
 {
-	printf("\nВвод параметров ОЗУ\n");
+	printf("\nР’РІРѕРґ РїР°СЂР°РјРµС‚СЂРѕРІ РћР—РЈ\n");
 	char* type_ddr = (char*)calloc(len_name, sizeof(char));
 	int frequency, mem;
-	printf("Введите тип ОЗУ: ");
+	printf("Р’РІРµРґРёС‚Рµ С‚РёРї РћР—РЈ: ");
 	gets_s(type_ddr, len_name);
 	do
 	{
-		printf("Введите частоту ОЗУ в МГЦ: ");
+		printf("Р’РІРµРґРёС‚Рµ С‡Р°СЃС‚РѕС‚Сѓ РћР—РЈ РІ РњР“Р¦: ");
 		scanf("%d", &frequency);
 		clean();
 	} while (frequency <= 0 || frequency >= 12000);
 	do
 	{
-		printf("Введите объём ОЗУ: ");
+		printf("Р’РІРµРґРёС‚Рµ РѕР±СЉС‘Рј РћР—РЈ: ");
 		scanf("%d", &mem);
 		clean();
 	} while (mem <= 0);
@@ -271,12 +271,12 @@ RAM input_ram()
 
 Motherboard input_motherboard()
 {
-	printf("\nВвод параметров материнской платы\n");
+	printf("\nР’РІРѕРґ РїР°СЂР°РјРµС‚СЂРѕРІ РјР°С‚РµСЂРёРЅСЃРєРѕР№ РїР»Р°С‚С‹\n");
 	char* name_motherboard = (char*)calloc(len_name, sizeof(char));
 	char* chipset = (char*)calloc(len_name, sizeof(char));
-	printf("Введите название материнской платы: ");
+	printf("Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ РјР°С‚РµСЂРёРЅСЃРєРѕР№ РїР»Р°С‚С‹: ");
 	gets_s(name_motherboard, len_name);
-	printf("Введите чипсет: ");
+	printf("Р’РІРµРґРёС‚Рµ С‡РёРїСЃРµС‚: ");
 	gets_s(chipset, len_name);
 	return *init_motherboard(name_motherboard, chipset);
 }
@@ -284,10 +284,10 @@ Motherboard input_motherboard()
 PC input_pc()
 {
 	float price;
-	printf("\nВвод информации о компьютере\n");
+	printf("\nР’РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё Рѕ РєРѕРјРїСЊСЋС‚РµСЂРµ\n");
 	do
 	{
-		printf("Введите цену ПК: ");
+		printf("Р’РІРµРґРёС‚Рµ С†РµРЅСѓ РџРљ: ");
 		scanf("%f",&price);
 		clean();
 	} while (price <= 0);
@@ -298,47 +298,47 @@ Build input_build()
 {
 	int number;
 	char* client = (char*)calloc(len_name, sizeof(char));
-	printf("Ввод данных заказа\n");
+	printf("Р’РІРѕРґ РґР°РЅРЅС‹С… Р·Р°РєР°Р·Р°\n");
 	do
 	{
-		printf("Введите номер заказа: ");
+		printf("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ Р·Р°РєР°Р·Р°: ");
 		scanf("%d", &number);
 		clean();
 	} while (number <= 0);
-	printf("Введите имя клиента: ");
+	printf("Р’РІРµРґРёС‚Рµ РёРјСЏ РєР»РёРµРЅС‚Р°: ");
 	gets_s(client, len_name);
 	Status status;
 	do
 	{
-		printf("Введите статус заказа, где\n0 - Заказ создан\n1 - Заказ в работе\n2 - Заказ выполнен\nВаш выбор: ");
+		printf("Р’РІРµРґРёС‚Рµ СЃС‚Р°С‚СѓСЃ Р·Р°РєР°Р·Р°, РіРґРµ\n0 - Р—Р°РєР°Р· СЃРѕР·РґР°РЅ\n1 - Р—Р°РєР°Р· РІ СЂР°Р±РѕС‚Рµ\n2 - Р—Р°РєР°Р· РІС‹РїРѕР»РЅРµРЅ\nР’Р°С€ РІС‹Р±РѕСЂ: ");
 		scanf("%d", &status);
 		clean();
 	} while (status < 0 && status > 2);
 	return *init_build(number, input_pc(), client, status);
 }
 
-//Вывод структур
+//Р’С‹РІРѕРґ СЃС‚СЂСѓРєС‚СѓСЂ
 int Output_PC_spec(PC pc)
 {
-	printf("\nИнформация о сборке:\n\n");
-	printf("Процессор: %s, %d МГЦ, %d ядер, %d потоков\n", pc.cpu.name_cpu, pc.cpu.frequency, pc.cpu.cores, pc.cpu.treads);
-	printf("Видеокарта: %s, %d VRAM, %d TDP\n", pc.gpu.name_gpu, pc.gpu.vram, pc.gpu.TDP);
-	printf("ОЗУ: %s, %d частота, %d объём\n", pc.ram.type_ddr, pc.ram.frequency, pc.ram.mem);
-	printf("Материнская плата: %s, %s чипсет\n", pc.motherboard.name_motherboard, pc.motherboard.chipset);
-	printf("Цена сборки: %.2f\n", pc.price);
+	printf("\nРРЅС„РѕСЂРјР°С†РёСЏ Рѕ СЃР±РѕСЂРєРµ:\n\n");
+	printf("РџСЂРѕС†РµСЃСЃРѕСЂ: %s, %d РњР“Р¦, %d СЏРґРµСЂ, %d РїРѕС‚РѕРєРѕРІ\n", pc.cpu.name_cpu, pc.cpu.frequency, pc.cpu.cores, pc.cpu.treads);
+	printf("Р’РёРґРµРѕРєР°СЂС‚Р°: %s, %d VRAM, %d TDP\n", pc.gpu.name_gpu, pc.gpu.vram, pc.gpu.TDP);
+	printf("РћР—РЈ: %s, %d С‡Р°СЃС‚РѕС‚Р°, %d РѕР±СЉС‘Рј\n", pc.ram.type_ddr, pc.ram.frequency, pc.ram.mem);
+	printf("РњР°С‚РµСЂРёРЅСЃРєР°СЏ РїР»Р°С‚Р°: %s, %s С‡РёРїСЃРµС‚\n", pc.motherboard.name_motherboard, pc.motherboard.chipset);
+	printf("Р¦РµРЅР° СЃР±РѕСЂРєРё: %.2f\n", pc.price);
 	return 1;
 }
 
 int Output_build(Build build)
 {
-	printf("\nИнформация о заказе:\n\n");
-	printf("Номер заказа: %d\n", build.number);
-	printf("Клиент - %s\n", build.client);
-	printf("Статус - %s\n", StatusToString(build.status));
+	printf("\nРРЅС„РѕСЂРјР°С†РёСЏ Рѕ Р·Р°РєР°Р·Рµ:\n\n");
+	printf("РќРѕРјРµСЂ Р·Р°РєР°Р·Р°: %d\n", build.number);
+	printf("РљР»РёРµРЅС‚ - %s\n", build.client);
+	printf("РЎС‚Р°С‚СѓСЃ - %s\n", StatusToString(build.status));
 	return 1;
 }
 
-//Дополнительные функции
+//Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё
 
 
 void undervolt_gpu(PC *pc)
@@ -349,17 +349,17 @@ void undervolt_gpu(PC *pc)
 		if (pc->gpu.TDP < pc->gpu.min_TDP)
 			pc->gpu.TDP = pc->gpu.min_TDP;
 	}
-	else printf("Достигнут предел undervolt'а");
+	else printf("Р”РѕСЃС‚РёРіРЅСѓС‚ РїСЂРµРґРµР» undervolt'Р°");
 }
 
 void ChangeStatus(Build *build, Status newstatus) 
 {
 	if (newstatus >= create && newstatus <= finished) {
 		build->status = newstatus;
-		printf("Состояние заказа успешно изменено!\n");
+		printf("РЎРѕСЃС‚РѕСЏРЅРёРµ Р·Р°РєР°Р·Р° СѓСЃРїРµС€РЅРѕ РёР·РјРµРЅРµРЅРѕ!\n");
 	}
 	else {
-		printf("Неверно, выход из программы...");
+		printf("РќРµРІРµСЂРЅРѕ, РІС‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹...");
 		exit(-1);
 	}
 }
