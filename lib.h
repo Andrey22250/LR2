@@ -9,7 +9,7 @@ void clean()  //Очистка потока
 {
 	while (getchar() != '\n');
 }
-
+//Основные структуры
 struct CPU
 {
 	char *name_cpu;
@@ -78,7 +78,7 @@ char* StatusToString(Status status) {
 }
 
 //Основные функции
-
+/*-----------------------------------------------------------------------------*/
 
 //Инициализация структур
 
@@ -339,7 +339,6 @@ int Output_build(Build build)
 }
 
 //Дополнительные функции
-
 
 void undervolt_gpu(PC *pc)
 {
